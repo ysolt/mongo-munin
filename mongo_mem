@@ -15,13 +15,14 @@ except ImportError:
 def getServerStatus():
     host = os.environ.get("host", "127.0.0.1")
     port = 28017
-    url = "http://%s:%d/_status" % (host, port)
+    scheme = os.environ.get("scheme", "http")
+    url = "%s://%s:%d/_status" % (scheme, host, port)
     req = urllib2.Request(url)
     user = os.environ.get("user")
     password = os.environ.get("password")
     if user and password:
         passwdmngr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-        passwdmngr.add_password(None, 'http://%s:%d' % (host, port), user, password)
+        passwdmngr.add_password(None, '%s://%s:%d' % (scheme, host, port), user, password)
         authhandler = urllib2.HTTPDigestAuthHandler(passwdmngr)
         opener = urllib2.build_opener(authhandler)
         urllib2.install_opener(opener)
