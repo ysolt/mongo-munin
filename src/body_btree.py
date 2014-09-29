@@ -1,6 +1,10 @@
 
 def get():
-    return getServerStatus()["indexCounters"]["btree"]
+    status = getServerStatus()
+    if status["version"] >= "2.4.0":
+        return status["indexCounters"]
+    else:
+        return status["indexCounters"]["btree"]
 
 def doData():
     for k,v in get().iteritems():
