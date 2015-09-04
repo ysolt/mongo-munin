@@ -46,6 +46,15 @@ Test plugin output:
 
     munin-run mongo_ops
 
-Notes
+Configuration
 -----------
-* Authentication needs to be re-added
+
+**how to configure custom db connection**
+
+munin-node can set env value in below file:
+
+`/etc/munin/plugin-conf.d/munin-node`
+
+    [mongo_*]
+    env.MONGO_DB_URI mongodb://user:password@host:port/dbname
+
