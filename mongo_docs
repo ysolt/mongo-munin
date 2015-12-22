@@ -4,21 +4,23 @@
 
 import urllib2
 import sys
-import os
+import os  
 import pymongo
 
 def getServerStatus():
-    host = "127.0.0.1"
-    port = 27017
-    c = pymongo.MongoClient(host, port)
+    if 'MONGO_DB_URI' in os.environ:
+      c = pymongo.MongoClient(os.environ['MONGO_DB_URI'])
+    else:
+      c = pymongo.MongoClient()
+
     return c.admin.command('serverStatus', workingSet=True)
 
-name = "documents"
+def get():
+    return getServerStatus()["metrics"]["document"]
 
 
 def doData():
-    ss = getServerStatus()
-    for k,v in ss["metrics"]["document"].iteritems():
+    for k, v in get().iteritems():
         print( str(k) + ".value " + str(v) )
 
 def doConfig():
@@ -28,15 +30,19 @@ def doConfig():
     print "graph_vlabel documents"
     print "graph_category MongoDB"
 
-    for k in getServerStatus()["metrics"]["document"]:
+    for k in get():
         print k + ".label " + k
         print k + ".min 0"
         print k + ".type COUNTER"
         print k + ".max 500000"
         print k + ".draw LINE1"
 
-if __name__ == "__main__":
 
+
+
+
+if __name__ == "__main__":          
+	
     from os import environ
     if 'HOST' in environ:
         host = environ['HOST']
@@ -46,7 +52,7 @@ if __name__ == "__main__":
         user = environ['USER']
     if 'PASSWORD' in environ:
         password = environ['PASSWORD']
-
+    
 if len(sys.argv) > 1 and sys.argv[1] == "config":
     doConfig()
 else:
