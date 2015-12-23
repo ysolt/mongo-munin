@@ -1,23 +1,24 @@
 
-Munin Plugins for MongoDB
-============
+Multigraph Munin Plugin for MongoDB
+===================================
 
-Plugins
-----------
-* mongo_ops   : operations/second
-* mongo_mem   : mapped, virtual and resident memory usage
-* mongo_btree : btree access/misses/etc...
-* mongo_conn  : current connections
-* mongo_lock  : write lock info
-* mongo_docs  : number of documents (inserted, updated...)
+Graphs
+------
+* ops: operations/second
+* mem: mapped, virtual and resident memory usage
+* conn: current connections
+* lock: read/write lock info
+* docs: number of documents (inserted, updated...)
+* page_faults: number of page faults/second
+* collections: number of documents per collection and size of each collection
 
 Requirements
------------
-* MongoDB 2.4+
+------------
+* MongoDB 3.0+
 * python/pymongo
 
 Installation (ubuntu)
-------------
+---------------------
 
 **Install pymongo:**
 
@@ -27,34 +28,32 @@ Installation (ubuntu)
 
 **Install plugins**
 
-    git clone https://github.com/comerford/mongo-munin.git /tmp/mongo-munin
-    sudo cp /tmp/mongo-munin/mongo_* /usr/share/munin/plugins
-    sudo ln -sf /usr/share/munin/plugins/mongo_btree /etc/munin/plugins/mongo_btree
-    sudo ln -sf /usr/share/munin/plugins/mongo_conn /etc/munin/plugins/mongo_conn
-    sudo ln -sf /usr/share/munin/plugins/mongo_lock /etc/munin/plugins/mongo_lock
-    sudo ln -sf /usr/share/munin/plugins/mongo_mem /etc/munin/plugins/mongo_mem
-    sudo ln -sf /usr/share/munin/plugins/mongo_ops /etc/munin/plugins/mongo_ops
-    sudo ln -sf /usr/share/munin/plugins/mongo_docs /etc/munin/plugins/mongo_docs
-    sudo chmod +x /usr/share/munin/plugins/mongo_*
+    git clone https://github.com/cureatr/mongo-munin.git /tmp/mongo-munin
+    sudo cp /tmp/mongo-munin/mongo_munin /usr/share/munin/plugins
+    sudo ln -sf /usr/share/munin/plugins/mongo_munin /etc/munin/plugins/mongo_munin
+    sudo chmod +x /usr/share/munin/plugins/mongo_munin
     sudo service munin-node restart
 
 Check if plugins are running:
 
-    munin-node-configure | grep "mongo_"
+    munin-node-configure | grep "mongo_munin"
 
 Test plugin output:
 
-    munin-run mongo_ops
+    munin-run mongo_munin
 
 Configuration
------------
+-------------
 
-**how to configure custom db connection**
+munin-node environment can be customized by adding a configuration file:
 
-munin-node can set env value in below file:
+`/etc/munin/plugin-conf.d/munin-mongo`
 
-`/etc/munin/plugin-conf.d/munin-node`
+You can specify a custom mongodb connection URI,
+or a custom path if you want to run mongo_munin in a python virtualenv:
 
-    [mongo_*]
-    env.MONGO_DB_URI mongodb://user:password@host:port/dbname
-
+```
+[mongo_munin]
+env.MONGO_DB_URI mongodb://user:password@host:port/dbname
+env.PATH /path/to/virtualenv/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
