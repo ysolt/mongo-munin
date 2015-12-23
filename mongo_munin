@@ -111,12 +111,12 @@ def mongo_conn(config, client, status):
         print("{}.value {}".format(name, status["connections"]["current"]))
 
 
-def mongo_docs(config, client, status):
+def mongo_document_activity(config, client, status):
     print("multigraph docs")
     if config:
-        print("graph_title MongoDB documents")
+        print("graph_title MongoDB document activity")
         print("graph_args --base 1000 -l 0")
-        print("graph_vlabel documents")
+        print("graph_vlabel document action")
         print("graph_category MongoDB")
 
         for k in status["metrics"]["document"]:
@@ -192,7 +192,7 @@ def main(config):
     mongo_mem(config, client, status)
     mongo_ops(config, client, status)
     mongo_conn(config, client, status)
-    mongo_docs(config, client, status)
+    mongo_document_activity(config, client, status)
     mongo_page_faults(config, client, status)
     mongo_lock(config, client, status)
 

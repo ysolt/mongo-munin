@@ -8,7 +8,7 @@ Graphs
 * mem: mapped, virtual and resident memory usage
 * conn: current connections
 * lock: read/write lock info
-* docs: number of documents (inserted, updated...)
+* document_activity: number of documents (inserted, updated...)
 * page_faults: number of page faults/second
 * collections: number of documents per collection and size of each collection
 
