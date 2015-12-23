@@ -14,7 +14,7 @@ Graphs
 
 Requirements
 ------------
-* MongoDB 3.0+
+* MongoDB 2.4+
 * python/pymongo
 
 Installation (ubuntu)

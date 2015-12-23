@@ -150,6 +150,11 @@ def mongo_page_faults(config, client, status):
 
 
 def mongo_lock(config, client, status):
+    # Locks are reported differently pre mongodb 3.x
+    if status["version"].startswith("2."):
+        mongo_lock_legacy(config, client, status)
+        return
+
     lock_counters = ("acquireCount", "acquireWaitCount", "deadlockCount")
     lock_modes = ("R", "W", "r", "w")
 
@@ -178,6 +183,20 @@ def mongo_lock(config, client, status):
     else:
         for counter_name, count in locks:
             print("{}.value {}".format(escape_field(counter_name), count))
+
+
+def mongo_lock_legacy(config, client, status):
+    name = "locked"
+
+    print("multigraph lock")
+    if config:
+        print("graph_title MongoDB global write lock percentage")
+        print("graph_args --base 1000 -l 0 ")
+        print("graph_vlabel percentage")
+        print("graph_category MongoDB")
+        print("{0}.label {0}".format(name))
+    else:
+        print("{}.value {}".format(name, 100 * (status["globalLock"]["lockTime"] / status["globalLock"]["totalTime"])))
 
 
 def main(config):
