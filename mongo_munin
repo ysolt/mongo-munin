@@ -73,7 +73,7 @@ def mongo_mem(config, client, status):
                 print("{}.label {}".format(escape_field(k), k))
                 print("{}.draw LINE1".format(escape_field(k)))
     else:
-        for k, v in status["mem"].iteritems():
+        for k, v in status["mem"].items():
             if k in memtype:
                 print("{}.value {}".format(escape_field(k), v * 1024 * 1024))
 
