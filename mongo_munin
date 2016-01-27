@@ -94,7 +94,7 @@ def mongo_ops(config, client, status):
             print("{}.max 500000".format(escape_field(k)))
             print("{}.draw LINE1".format(escape_field(k)))
     else:
-        for k, v in status["opcounters"].iteritems():
+        for k, v in status["opcounters"].items():
             print("{}.value {}".format(escape_field(k), v))
 
 
@@ -126,7 +126,7 @@ def mongo_document_activity(config, client, status):
             print("{}.max 500000".format(escape_field(k)))
             print("{}.draw LINE1".format(escape_field(k)))
     else:
-        for k, v in status["metrics"]["document"].iteritems():
+        for k, v in status["metrics"]["document"].items():
             print("{}.value {}".format(escape_field(k), v))
 
 
@@ -159,7 +159,7 @@ def mongo_lock(config, client, status):
     lock_modes = ("R", "W", "r", "w")
 
     locks = []
-    for lock_type, lock_document in status["locks"].iteritems():
+    for lock_type, lock_document in status["locks"].items():
         for counter in lock_counters:
             for mode in lock_modes:
                 counter_name = "{}.{}.{}".format(lock_type, counter, mode)
