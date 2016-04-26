@@ -162,7 +162,7 @@ def mongo_lock(config, client, status):
     for lock_type, lock_document in status["locks"].items():
         for counter in lock_counters:
             for mode in lock_modes:
-                counter_name = "{1}.{2}.{3}".format(lock_type, counter, mode)
+                counter_name = "{0}.{1}.{2}".format(lock_type, counter, mode)
                 locks.append((counter_name, lock_document.get(counter, {}).get(mode, 0)))
 
     print("multigraph lock")
