@@ -32,13 +32,13 @@ def mongo_collections(config, client, status):
 
         for name in collections:
             field_name = escape_field(name)
-            print("{}.label {}".format(field_name, name))
-            print("{}.min 0".format(field_name))
-            print("{}.type GAUGE".format(field_name))
-            print("{}.draw LINE1".format(field_name))
+            print("{0}.label {1}".format(field_name, name))
+            print("{0}.min 0".format(field_name))
+            print("{0}.type GAUGE".format(field_name))
+            print("{0}.draw LINE1".format(field_name))
     else:
         for name, stats in collections:
-            print("{}.value {}".format(escape_field(name), stats["count"]))
+            print("{0}.value {1}".format(escape_field(name), stats["count"]))
 
     print("multigraph collection_size")
     if config:
@@ -50,13 +50,13 @@ def mongo_collections(config, client, status):
 
         for name in collections:
             field_name = escape_field(name)
-            print("{}.label {}".format(field_name, name))
-            print("{}.min 0".format(field_name))
-            print("{}.type GAUGE".format(field_name))
-            print("{}.draw LINE1".format(field_name))
+            print("{0}.label {1}".format(field_name, name))
+            print("{0}.min 0".format(field_name))
+            print("{0}.type GAUGE".format(field_name))
+            print("{0}.draw LINE1".format(field_name))
     else:
         for name, stats in collections:
-            print("{}.value {}".format(escape_field(name), stats["size"]))
+            print("{0}.value {1}".format(escape_field(name), stats["size"]))
 
 
 def mongo_mem(config, client, status):
@@ -70,12 +70,12 @@ def mongo_mem(config, client, status):
 
         for k in status["mem"]:
             if k in memtype:
-                print("{}.label {}".format(escape_field(k), k))
-                print("{}.draw LINE1".format(escape_field(k)))
+                print("{0}.label {1}".format(escape_field(k), k))
+                print("{0}.draw LINE1".format(escape_field(k)))
     else:
         for k, v in status["mem"].items():
             if k in memtype:
-                print("{}.value {}".format(escape_field(k), v * 1024 * 1024))
+                print("{0}.value {1}".format(escape_field(k), v * 1024 * 1024))
 
 
 def mongo_ops(config, client, status):
@@ -88,14 +88,14 @@ def mongo_ops(config, client, status):
         print("graph_total total")
 
         for k in status["opcounters"]:
-            print("{}.label {}".format(escape_field(k), k))
-            print("{}.min 0".format(escape_field(k)))
-            print("{}.type COUNTER".format(escape_field(k)))
-            print("{}.max 500000".format(escape_field(k)))
-            print("{}.draw LINE1".format(escape_field(k)))
+            print("{0}.label {1}".format(escape_field(k), k))
+            print("{0}.min 0".format(escape_field(k)))
+            print("{0}.type COUNTER".format(escape_field(k)))
+            print("{0}.max 500000".format(escape_field(k)))
+            print("{0}.draw LINE1".format(escape_field(k)))
     else:
         for k, v in status["opcounters"].items():
-            print("{}.value {}".format(escape_field(k), v))
+            print("{0}.value {1}".format(escape_field(k), v))
 
 
 def mongo_conn(config, client, status):
@@ -108,7 +108,7 @@ def mongo_conn(config, client, status):
         print("graph_category MongoDB")
         print("{0}.label {0}".format(name))
     else:
-        print("{}.value {}".format(name, status["connections"]["current"]))
+        print("{0}.value {1}".format(name, status["connections"]["current"]))
 
 
 def mongo_document_activity(config, client, status):
@@ -120,14 +120,14 @@ def mongo_document_activity(config, client, status):
         print("graph_category MongoDB")
 
         for k in status["metrics"]["document"]:
-            print("{}.label {}".format(escape_field(k), k))
-            print("{}.min 0".format(escape_field(k)))
-            print("{}.type COUNTER".format(escape_field(k)))
-            print("{}.max 500000".format(escape_field(k)))
-            print("{}.draw LINE1".format(escape_field(k)))
+            print("{0}.label {1}".format(escape_field(k), k))
+            print("{0}.min 0".format(escape_field(k)))
+            print("{0}.type COUNTER".format(escape_field(k)))
+            print("{0}.max 500000".format(escape_field(k)))
+            print("{0}.draw LINE1".format(escape_field(k)))
     else:
         for k, v in status["metrics"]["document"].items():
-            print("{}.value {}".format(escape_field(k), v))
+            print("{0}.value {1}".format(escape_field(k), v))
 
 
 def mongo_page_faults(config, client, status):
@@ -141,12 +141,12 @@ def mongo_page_faults(config, client, status):
         print("graph_total total")
 
         print("{0}.label {0}".format(name))
-        print("{}.min 0".format(name))
-        print("{}.type COUNTER".format(name))
-        print("{}.max 10000".format(name))
-        print("{}.draw LINE1".format(name))
+        print("{0}.min 0".format(name))
+        print("{0}.type COUNTER".format(name))
+        print("{0}.max 10000".format(name))
+        print("{0}.draw LINE1".format(name))
     else:
-        print("{}.value {}".format(name, status["extra_info"]["page_faults"]))
+        print("{0}.value {1}".format(name, status["extra_info"]["page_faults"]))
 
 
 def mongo_lock(config, client, status):
@@ -162,7 +162,7 @@ def mongo_lock(config, client, status):
     for lock_type, lock_document in status["locks"].items():
         for counter in lock_counters:
             for mode in lock_modes:
-                counter_name = "{}.{}.{}".format(lock_type, counter, mode)
+                counter_name = "{1}.{2}.{3}".format(lock_type, counter, mode)
                 locks.append((counter_name, lock_document.get(counter, {}).get(mode, 0)))
 
     print("multigraph lock")
@@ -175,14 +175,14 @@ def mongo_lock(config, client, status):
 
         for counter_name, _ in locks:
             field_name = escape_field(counter_name)
-            print("{}.label {}".format(field_name, counter_name))
-            print("{}.min 0".format(field_name))
-            print("{}.type COUNTER".format(field_name))
-            print("{}.max 10000".format(field_name))
-            print("{}.draw LINE1".format(field_name))
+            print("{0}.label {1}".format(field_name, counter_name))
+            print("{0}.min 0".format(field_name))
+            print("{0}.type COUNTER".format(field_name))
+            print("{0}.max 10000".format(field_name))
+            print("{0}.draw LINE1".format(field_name))
     else:
         for counter_name, count in locks:
-            print("{}.value {}".format(escape_field(counter_name), count))
+            print("{0}.value {1}".format(escape_field(counter_name), count))
 
 
 def mongo_lock_legacy(config, client, status):
@@ -196,7 +196,7 @@ def mongo_lock_legacy(config, client, status):
         print("graph_category MongoDB")
         print("{0}.label {0}".format(name))
     else:
-        print("{}.value {}".format(name, 100 * (status["globalLock"]["lockTime"] / status["globalLock"]["totalTime"])))
+        print("{0}.value {1}".format(name, 100 * (status["globalLock"]["lockTime"] / status["globalLock"]["totalTime"])))
 
 
 def main(config):
