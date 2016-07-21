@@ -56,7 +56,7 @@ def mongo_collections(config, client, status):
             print("{0}.draw LINE1".format(field_name))
     else:
         for name, stats in collections:
-            print("{0}.value {1}".format(escape_field(name), stats["size"]))
+            print("{0}.value {1}".format(escape_field(name), stats["storageSize"]))
 
     print("multigraph collection_index_size")
     if config:
@@ -92,7 +92,7 @@ def mongo_collections(config, client, status):
             print("{0}.draw LINE1".format(field_name))
     else:
         for name, stats in collections:
-            print("{0}.value {1}".format(escape_field(name), stats["storageSize"]))
+            print("{0}.value {1}".format(escape_field(name), stats["storageSize"]+stats["totalIndexSize"]))
 
 def mongo_mem(config, client, status):
     memtype = ("resident", "virtual", "mapped")
